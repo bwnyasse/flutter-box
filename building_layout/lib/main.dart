@@ -26,6 +26,40 @@ class MyApp extends StatelessWidget {
   }
 }
 
+Widget _getButtonSection(BuildContext context,) => new Container(
+  child: new Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: <Widget>[
+      _buildButtonColumn(context, Icons.call, 'CALL'),
+      _buildButtonColumn(context, Icons.near_me, 'ROUTE'),
+      _buildButtonColumn(context, Icons.share, 'SHARE')
+    ],
+  )
+);
+
+Column _buildButtonColumn(BuildContext context, IconData icon, String label) =>
+    new Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        new Icon(icon, color: Theme
+            .of(context)
+            .primaryColor),
+        new Container(
+          margin: const EdgeInsets.only(top: 8.0),
+          child: new Text(
+            label,
+            style: new TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w400,
+                color: Theme
+                    .of(context)
+                    .primaryColor),
+          ),
+        ),
+      ],
+    );
+
 Widget _getTitleSection() =>
     new Container(
         padding: const EdgeInsets.all(32.0),
