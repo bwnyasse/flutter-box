@@ -1,5 +1,5 @@
-name: building_layout
-description: A new Flutter project.
+name: lakes
+description: Demonstrates building a layout for the "Lakes" app.
 
 dependencies:
   flutter:

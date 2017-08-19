@@ -3,6 +3,7 @@
 .buildlog
 .idea
 *.iml
+*.log
 .packages
 .pub/
 build/
