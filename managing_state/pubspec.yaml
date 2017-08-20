@@ -1,5 +1,5 @@
 name: managing_state
-description: A new Flutter project.
+description: Demonstrates managing widget state.
 
 dependencies:
   flutter:
