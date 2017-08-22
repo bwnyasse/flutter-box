@@ -1,8 +1,8 @@
-import 'oloodi_utils.dart' as service_utils;
 import 'package:bson_objectid/bson_objectid.dart';
 import 'package:mdown/mdown.dart';
 import 'package:quiver/strings.dart' as quiver_strings;
 
+import 'oloodi_utils.dart' as service_utils;
 
 const String STATIC_IMAGE_URL = "http://vmi92598.contabo.host:8086";
 

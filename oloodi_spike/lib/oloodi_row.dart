@@ -4,6 +4,53 @@ import 'oloodi_data.dart';
 
 typedef void FormationRowActionCallback(Formation formation);
 
+class SchoolRow extends StatelessWidget {
+  SchoolRow({
+    this.school,
+  }) : super(key: new ObjectKey(school));
+
+  final School school;
+
+  @override
+  Widget build(BuildContext context) {
+    return new InkWell(
+        child: new Container(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 20.0),
+            decoration: new BoxDecoration(
+                border: new Border(
+                    bottom: new BorderSide(color: Theme.of(context).dividerColor)
+                )
+            ),
+            child: new Row(
+                children: <Widget>[
+                  new Container(
+                      margin: const EdgeInsets.only(right: 5.0),
+                      child: new Hero(
+                          tag: school,
+                          child: new Image.network(school.getLogoLink(48), fit: BoxFit.cover)
+                      )
+                  ),
+                  new Expanded(
+                      child: new Row(
+                          children: <Widget>[
+                            new Expanded(
+                                flex: 2,
+                                child: new Text(
+                                    school.name
+                                )
+                            ),
+                          ],
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: DefaultTextStyle.of(context).style.textBaseline
+                      )
+                  ),
+                ]
+            )
+        )
+    );
+  }
+}
+
 class FormationRow extends StatelessWidget {
   FormationRow({
     this.formation,
@@ -42,7 +89,7 @@ class FormationRow extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 5.0),
                       child: new Hero(
                           tag: formation,
-                          child: new Image.network(formation.getLogoLink(), fit: BoxFit.cover)
+                          child: new Image.network(formation.getLogoLink(48), fit: BoxFit.cover)
                       )
                   ),
                   new Expanded(

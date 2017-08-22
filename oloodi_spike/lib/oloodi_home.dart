@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'oloodi_types.dart';
-import 'oloodi_data.dart';
+
 import 'oloodi_list.dart';
+import 'oloodi_types.dart';
+
 
 enum OloodiHomeTab { formations, schools }
 
@@ -41,10 +42,8 @@ class _NotImplementedDialog extends StatelessWidget {
 
 class OloodiHome extends StatefulWidget {
 
-  const OloodiHome(this.formationSearchResponse, this.schoolSearchResponse, this.configuration, this.updater);
+  const OloodiHome(this.configuration, this.updater);
 
-  final FormationSearchResponse formationSearchResponse;
-  final SchoolSearchResponse schoolSearchResponse;
   final OloodiConfiguration configuration;
   final ValueChanged<OloodiConfiguration> updater;
 
@@ -90,7 +89,7 @@ class OloodiHomeState extends State<OloodiHome> {
   Widget buildAppBar() {
     return new AppBar(
       elevation: 0.0,
-      title: new Text("Oloodi"),
+      title: new Text("Oloodi - Afrique"),
       actions: <Widget>[
         new IconButton(
           icon: const Icon(Icons.search),
@@ -100,7 +99,8 @@ class OloodiHomeState extends State<OloodiHome> {
       ],
       bottom: new TabBar(
         tabs: <Widget>[
-          new Tab(text: "Formations"),
+          new Tab(text: "FORMATIONS"),
+          new Tab(text: "ETABLISSEMENTS"),
         ],
       ),
     );
@@ -172,36 +172,41 @@ class OloodiHomeState extends State<OloodiHome> {
     return new Builder(
       key: new ValueKey<OloodiHomeTab>(tab),
       builder: (BuildContext context) {
-        return _buildFormationList(context, widget.formationSearchResponse, tab);
+        return _buildFormationList(context, tab);
       },
     );
   }
 
-  Widget _buildFormationList(BuildContext context, FormationSearchResponse formationSearchResponse, OloodiHomeTab tab) {
-    return new FormationList(
-      response: formationSearchResponse,
-/*      onAction: _buyStock,
-      onOpen: (Stock stock) {
-       // Navigator.pushNamed(context, '/stock:${stock.symbol}');
+  Widget _buildSchoolTab(BuildContext context, OloodiHomeTab tab) {
+    return new Builder(
+      key: new ValueKey<OloodiHomeTab>(tab),
+      builder: (BuildContext context) {
+        return _buildSchoolList(context, tab);
       },
-      onShow: (Stock stock) {
-        _scaffoldKey.currentState.showBottomSheet<Null>((BuildContext context) => new StockSymbolBottomSheet(stock: stock));
-      },*/
     );
+  }
+
+  Widget _buildFormationList(BuildContext context, OloodiHomeTab tab) {
+    return new FormationList();
+  }
+
+  Widget _buildSchoolList(BuildContext context, OloodiHomeTab tab) {
+    return new SchoolList();
   }
 
   @override
   Widget build(BuildContext context) {
     return new DefaultTabController(
-      length: 1,
+      length: 2,
       child: new Scaffold(
-        //key: _scaffoldKey,
+        key: _scaffoldKey,
         appBar: _isSearching ? buildSearchBar() : buildAppBar(),
        // floatingActionButton: buildFloatingActionButton(),
         drawer: _buildDrawer(context),
         body: new TabBarView(
           children: <Widget>[
             _buildFormationTab(context, OloodiHomeTab.formations),
+            _buildSchoolTab(context, OloodiHomeTab.schools),
           ],
         ),
       ),

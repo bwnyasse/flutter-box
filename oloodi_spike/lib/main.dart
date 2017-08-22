@@ -1,6 +1,7 @@
 library oloodi;
 
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show
 debugPaintSizeEnabled,
@@ -9,11 +10,9 @@ debugPaintLayerBordersEnabled,
 debugPaintPointersEnabled,
 debugRepaintRainbowEnabled;
 
-import 'oloodi_types.dart';
-import 'oloodi_data.dart';
 import 'oloodi_home.dart';
-import 'package:flutter/foundation.dart';
-import 'oloodi_http.dart' as oloodi_http;
+import 'oloodi_types.dart';
+
 
 Route<Null> _getRoute(RouteSettings settings) {
   // Routes, by convention, are split on slashes, like filesystem paths.
@@ -66,7 +65,6 @@ class OloodiApp extends StatefulWidget {
 }
 
 class OloodiAppState extends State<OloodiApp> {
-  FormationSearchResponse _formationSearchResponse;
 
   OloodiConfiguration _configuration = _getConfiguration();
 
@@ -93,8 +91,6 @@ class OloodiAppState extends State<OloodiApp> {
     return null;
   }
 
-  fetchFormation() =>  oloodi_http.searchFormation();
-
   @override
   Widget build(BuildContext context) {
     assert(() {
@@ -106,29 +102,17 @@ class OloodiAppState extends State<OloodiApp> {
       return true;
     });
     return new MaterialApp(
-        title: 'Oloodi',
-        theme: theme,
-        debugShowMaterialGrid: _configuration.debugShowGrid,
-        showPerformanceOverlay: _configuration.showPerformanceOverlay,
-        showSemanticsDebugger: _configuration.showSemanticsDebugger,
-        routes: <String, WidgetBuilder>{
-          '/':         (BuildContext context) => new FutureBuilder<FormationSearchResponse>(
-            future: fetchFormation(), // a Future<FormationSearchResponse> or null
-            builder: (BuildContext context, AsyncSnapshot<FormationSearchResponse> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none: return new Text('Press button to start');
-                case ConnectionState.waiting: return new Text('Awaiting result...');
-                default:
-                  if (snapshot.hasError)
-                    return new Text('Error: ${snapshot.error}');
-                  else
-                    return new OloodiHome(snapshot.data, null, _configuration, configurationUpdater);
-              }
-            },
-          ),
-        },
-        onGenerateRoute: _getRoute,
-        //onLocaleChanged: _onLocaleChanged
+      title: 'Oloodi',
+      theme: theme,
+      debugShowMaterialGrid: _configuration.debugShowGrid,
+      showPerformanceOverlay: _configuration.showPerformanceOverlay,
+      showSemanticsDebugger: _configuration.showSemanticsDebugger,
+      routes: <String, WidgetBuilder>{
+        '/': (BuildContext context) => new OloodiHome( _configuration,
+            configurationUpdater),
+      },
+      onGenerateRoute: _getRoute,
+      //onLocaleChanged: _onLocaleChanged
     );
   }
 }
