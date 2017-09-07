@@ -18,18 +18,36 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'moviedb_datamodel.dart';
 
+const String API_KEY = '4205ec1d93b1e3465f636f0956a98c64';
+
 const String API = "https://api.themoviedb.org/3/";
 
+Future<MoviesResponse> popuplarMovies() => _fetchMovie("/movie/popular");
 
-Future<SearchMoviesResponse> searchMovie([String query]) async {
-  Completer<SearchMoviesResponse> completer = new Completer<
-      SearchMoviesResponse>();
+Future<MoviesResponse> topRatedMovies() => _fetchMovie("/movie/top_rated");
 
-  http.Response response = await _get(
-      url: "https://api.themoviedb.org/3/search/movie?api_key=4205ec1d93b1e3465f636f0956a98c64&query=$query");
+Future<MoviesResponse> upComingMovies() => _fetchMovie("/movie/upcoming");
+
+Future<MoviesResponse> discoverMovie() => _fetchMovie("/discover/movie");
+
+Future<MoviesResponse> _fetchMovie(String path) async {
+  final http.Response response = await _get(
+      url: "https://api.themoviedb.org/3$path?api_key=$API_KEY");
 
   Map json = JSON.decode(response.body);
-  SearchMoviesResponse result = new SearchMoviesResponse.fromJson(json);
+
+  return new MoviesResponse.fromJson(json);
+}
+
+Future<MoviesResponse> searchMovie([String query]) async {
+  Completer<MoviesResponse> completer = new Completer<
+      MoviesResponse>();
+
+  http.Response response = await _get(
+      url: "https://api.themoviedb.org/3/search/movie?api_key=$API_KEY&query=$query");
+
+  Map json = JSON.decode(response.body);
+  MoviesResponse result = new MoviesResponse.fromJson(json);
   completer.complete(result);
 
   return completer.future;

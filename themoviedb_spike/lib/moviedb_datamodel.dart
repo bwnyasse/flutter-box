@@ -12,24 +12,24 @@
  */
 
 
-class SearchMoviesResponse {
+class MoviesResponse {
   String page;
   String totalResults;
   String totalPages;
-  List<SearchMovieEntry> searchMovieEntries = [];
+  List<MovieEntry> searchMovieEntries = [];
 
-  SearchMoviesResponse.fromJson(Map json) {
+  MoviesResponse.fromJson(Map json) {
     this.page = json['page'].toString();
     this.totalResults = json['total_results'].toString();
     this.totalPages = json['total_pages'].toString();
     List results = json['results'];
     results.forEach((entry) {
-      searchMovieEntries.add(new SearchMovieEntry.fromJson(entry));
+      searchMovieEntries.add(new MovieEntry.fromJson(entry));
     });
   }
 }
 
-class SearchMovieEntry {
+class MovieEntry {
   String posterPath;
   bool adult;
   String overview;
@@ -45,18 +45,18 @@ class SearchMovieEntry {
   bool video;
   String voteAverage;
 
-  SearchMovieEntry.fromEmpty(){
+  MovieEntry.fromEmpty(){
     originalTitle = "";
   }
 
-  SearchMovieEntry.fromJson(Map json) {
+  MovieEntry.fromJson(Map json) {
     this.posterPath = json['poster_path'].toString();
     this.adult = json['adult'].toString() == "true";
     this.overview = json['overview'].toString();
     this.id = json['id'].toString();
     this.originalTitle = json['original_title'].toString();
     this.originalLanguage = json['original_language'].toString();
-    this.originalLanguage = json['original_language'].toString();
+    this.releaseDate = json['release_date'].toString();
     this.title = json['title'].toString();
     this.backdropPath = json['backdrop_path'].toString();
     this.popularity = json['popularity'].toString();
